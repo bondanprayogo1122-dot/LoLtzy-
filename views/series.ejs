@@ -1,0 +1,30 @@
+<%- include('partials/head', { pageTitle: pageTitle }) %>
+<%- include('partials/header') %>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-1 rounded-2xl bg-white/5 border border-white/10 p-4">
+    <img src="<%= series.imageUrl %>" alt="<%= series.title %>" class="w-full rounded-xl">
+  </div>
+  <div class="lg:col-span-2 space-y-4">
+    <h1 class="text-2xl font-bold"><%= series.title %></h1>
+    <div class="text-sm text-gray-300">⭐ <%= series.rating || '-' %> • <%= series.status || '' %> • <%= series.type || '' %></div>
+    <p class="text-gray-200"><%= series.synopsis %></p>
+    <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+      <h2 class="font-semibold mb-2">Daftar Chapter</h2>
+      <ul class="divide-y divide-white/10">
+        <% if (series.chapters && series.chapters.length) { for (var i=0; i<series.chapters.length; i++) { var ch = series.chapters[i]; var id = ch.chapterId || (ch.url ? ch.url.split('/').filter(Boolean).pop() : ''); %>
+          <li class="py-3 flex items-center justify-between">
+            <div>
+              <a href="/<%= id %>" class="hover:text-white"><%= ch.title || ('Chapter ' + ch.number) %></a>
+              <% if (ch.date) { %><div class="text-xs text-gray-400"><%= ch.date %></div><% } %>
+            </div>
+            <a href="/<%= id %>" class="text-sm text-blue-400">Baca →</a>
+          </li>
+        <% } } else { %>
+          <li class="py-3 text-gray-400">Belum ada chapter.</li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</div>
+<%- include('partials/footer') %>
+<%- include('partials/end') %>

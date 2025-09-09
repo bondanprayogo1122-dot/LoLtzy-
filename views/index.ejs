@@ -1,0 +1,129 @@
+<%- include('partials/head', { pageTitle: pageTitle }) %>
+<%- include('partials/header') %>
+
+<%
+  var list = mangaList || [];
+  var trending = list.slice(0, 10);
+  var terbaru  = list.slice(10, 50); // tampilkan banyak
+  var cMap = typeof chapterMap !== "undefined" ? chapterMap : {};
+%>
+
+<!-- TRENDING (Swiper) -->
+<section class="mb-10">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">Trending</h2>
+    <div class="text-sm text-gray-300">Top <%= trending.length %> update</div>
+  </div>
+
+  <div class="swiper overflow-hidden rounded-2xl border border-white/10 shadow-glass bg-white/5 backdrop-blur-xl supports-[backdrop-filter]:bg-white/5">
+    <div class="swiper-wrapper">
+      <% for (var i = 0; i < trending.length; i++) { var it = trending[i]; %>
+        <div class="swiper-slide">
+          <a href="/series/<%= it.id %>" class="flex gap-4 p-4 sm:p-5">
+            <div class="w-24 sm:w-32 shrink-0 rounded-xl overflow-hidden bg-black/30 border border-white/10">
+              <img src="<%= it.imageUrl %>" alt="<%= it.title %>" class="h-full w-full object-cover">
+            </div>
+            <div class="min-w-0">
+              <div class="text-sm text-cyan-300 mb-1"><%= it.status || '' %></div>
+              <h3 class="text-base sm:text-lg font-semibold line-clamp-2"><%= it.title %></h3>
+              <div class="mt-2 flex items-center gap-3 text-sm text-gray-300">
+                <span>⭐ <%= it.rating || '-' %></span>
+                <% if (it.chapter) { %>
+                  <span class="px-2 py-0.5 rounded-full bg-white/10 border border-white/10 text-xs">
+                    <%= it.chapter %>
+                  </span>
+                <% } %>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+</section>
+
+<!-- MANGA TERBARU -->
+<section class="space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">
+      Manga Terbaru
+    </h2>
+  </div>
+
+  <!-- Grid 5 kolom, ukuran sedang -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+    <% for (var g = 0; g < terbaru.length; g++) { 
+         var gi = terbaru[g]; 
+         var chapters = cMap[gi.id] || [];
+    %>
+      <div class="group rounded-xl bg-white/5 border border-white/10 overflow-hidden hover:-translate-y-0.5 hover:shadow-lg transition">
+        <a href="/series/<%= gi.id %>" class="block">
+          <div class="relative h-56 bg-black/30">
+            <img src="<%= gi.imageUrl %>" alt="<%= gi.title %>" class="h-full w-full object-cover" loading="lazy" referrerpolicy="no-referrer">
+            <div class="absolute left-2 top-2">
+              <span class="px-2 py-0.5 text-[11px] rounded-md bg-blue-500 text-white/95">
+                <%= gi.type || 'Manga' %>
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <div class="px-3 pt-3">
+          <a href="/series/<%= gi.id %>">
+            <h3 class="text-sm font-semibold leading-snug line-clamp-2 group-hover:text-white">
+              <%= gi.title %>
+            </h3>
+          </a>
+        </div>
+
+        <div class="p-3 pt-2">
+          <% if (chapters.length) { %>
+            <ul class="space-y-1">
+              <% for (var c = 0; c < chapters.length; c++) { 
+                   var ch = chapters[c]; 
+                   var jump = ch.chapterId || (ch.url ? ch.url.split('/').filter(Boolean).pop() : null);
+                   var href = jump ? ('/' + jump) : ('/series/' + gi.id);
+              %>
+                <li class="flex items-center justify-between">
+                  <a href="<%= href %>" class="px-2 py-0.5 rounded bg-white/10 border border-white/10 text-[11px] hover:bg-white/15">
+                    <%= ch.title %>
+                  </a>
+                  <span class="text-[11px] text-gray-400 whitespace-nowrap"><%= ch.date %></span>
+                </li>
+              <% } %>
+            </ul>
+          <% } else { %>
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10 text-[11px]">
+                <%= gi.chapter || '—' %>
+              </span>
+              <span class="text-[11px] text-gray-400">&nbsp;</span>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <%- include('partials/pagination', { pagination: pagination }) %>
+</section>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.swiper', {
+    slidesPerView: 1,
+    spaceBetween: 12,
+    loop: true,
+    autoplay: { delay: 3500, disableOnInteraction: false },
+    pagination: { el: '.swiper-pagination', clickable: true },
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    breakpoints: { 640: { slidesPerView: 2 }, 1024:{ slidesPerView: 3 } }
+  });
+</script>
+
+<%- include('partials/footer') %>
+<%- include('partials/end') %>

@@ -1,0 +1,13 @@
+<% if (pagination) { %>
+  <div class="mt-6 flex items-center justify-center gap-2">
+    <a href="/?page=<%= pagination.previousPage || 1 %>"
+       class="px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 <%= pagination.previousPage ? 'hover:bg-white/10' : 'opacity-50 pointer-events-none' %>">
+      Prev
+    </a>
+    <span class="text-sm text-gray-300">Page <%= pagination.currentPage %></span>
+    <a href="/?page=<%= pagination.nextPage || pagination.currentPage %>"
+       class="px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 <%= pagination.nextPage ? 'hover:bg-white/10' : 'opacity-50 pointer-events-none' %>">
+      Next
+    </a>
+  </div>
+<% } %>

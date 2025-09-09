@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= pageTitle ? pageTitle + " — " : "" %>Manga</title>
+    <meta name="color-scheme" content="dark light">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: { base: { 900: "#0b0e14", 800: "#10141d", 700: "#151a24" } },
+            boxShadow: { glass: "0 10px 30px rgba(0,0,0,.35)" },
+          }
+        }
+      }
+    </script>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbilcJZ6lr1q9UvYjZEcD3v0u8XK0f5aX6UuHcG7pJQvC0FQK2WxTJ3Oz1c2Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body class="bg-base-900 text-gray-100 antialiased">
+    <div class="min-h-screen flex flex-col">

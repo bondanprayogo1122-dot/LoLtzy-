@@ -1,0 +1,96 @@
+<header class="sticky top-0 z-40">
+  <div class="backdrop-blur-xl bg-white/5 supports-[backdrop-filter]:bg-white/5 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-3">
+
+      <!-- Logo (gambar saja) -->
+      <a href="/" class="flex items-center shrink-0">
+        <img src="/images/logo.svg" class="h-8 w-auto object-contain" alt="Logo">
+      </a>
+
+      <!-- SEARCH (desktop) -->
+      <form action="/" method="get" class="hidden md:flex items-center flex-1 max-w-md ml-2">
+        <label class="relative w-full">
+          <input
+            type="text" name="q" placeholder="Search..."
+            value="<%= typeof query !== 'undefined' ? query : '' %>"
+            class="w-full rounded-xl bg-white/10 border border-white/10 pl-10 pr-9 py-2 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-white/20"
+          />
+          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+          <button class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white" title="Search">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </label>
+      </form>
+
+      <!-- Nav (desktop) -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300 ml-auto">
+        <a href="/" class="hover:text-white transition">Home</a>
+        <a href="/?page=1" class="hover:text-white transition">Komik</a>
+        <a href="#" class="hover:text-white transition">DMCA</a>
+        <a href="#" class="hover:text-white transition">About</a>
+        <a href="#" class="hover:text-white transition">Blog</a>
+      </nav>
+
+      <!-- Actions: User dropdown -->
+      <div class="ml-auto md:ml-3 flex items-center gap-2" x-data="{ open:false, dark: document.documentElement.classList.contains('dark') }">
+        <button @click="open=!open" class="h-9 w-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/15 border border-white/10 text-gray-300 hover:text-white transition" title="Account">
+          <i class="fas fa-user-circle text-lg"></i>
+        </button>
+
+        <!-- Dropdown panel -->
+        <div
+          x-cloak
+          x-show="open"
+          @click.outside="open=false"
+          class="absolute right-4 top-14 w-56 rounded-xl border border-white/10 bg-base-800/95 backdrop-blur p-2 shadow-xl"
+        >
+          <button
+            type="button"
+            class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 text-sm"
+            @click="
+              dark = !dark;
+              document.documentElement.classList.toggle('dark', dark);
+              localStorage.setItem('prefers-dark', dark ? '1' : '0');
+            "
+          >
+            <i class="fas fa-moon text-gray-300"></i>
+            <span>Dark Mode</span>
+          </button>
+
+          <% if (user) { %>
+            <div class="px-3 py-2 text-xs text-gray-400">
+              Login sebagai <span class="text-gray-200 font-medium"><%= user.username || user.email %></span>
+            </div>
+            <form action="/logout" method="post">
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 text-sm">
+                <i class="fas fa-sign-out-alt text-gray-300"></i>
+                <span>Logout</span>
+              </button>
+            </form>
+          <% } else { %>
+            <a href="/login" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 text-sm">
+              <i class="fas fa-sign-in-alt text-gray-300"></i>
+              <span>Login</span>
+            </a>
+            <a href="/register" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 text-sm">
+              <i class="fas fa-user-plus text-gray-300"></i>
+              <span>Register</span>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  (function(){
+    try {
+      const v = localStorage.getItem('prefers-dark');
+      if (v === '1') document.documentElement.classList.add('dark');
+    } catch(e){}
+  })();
+</script>
+
+<main class="flex-1">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

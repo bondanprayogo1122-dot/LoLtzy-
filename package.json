@@ -1,0 +1,28 @@
+{
+  "name": "manga-ejs-site",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Manga site with Express + EJS + Tailwind CDN + Swiper + Alpine + Dummy Auth + Smart Chapter Fallback",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "cross-env NODE_ENV=development node server.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^17.2.2",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-validator": "^7.2.1",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.14.5"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0"
+  }
+}
